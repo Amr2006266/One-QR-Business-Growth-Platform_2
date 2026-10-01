@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -41,6 +42,18 @@
   --color-sidebar-border: hsl(var(--sidebar-border));
   --color-sidebar-ring: hsl(var(--sidebar-ring));
 
+  /* OneQR Green Brand Colors */
+  --color-brand-50: hsl(var(--brand-50));
+  --color-brand-100: hsl(var(--brand-100));
+  --color-brand-200: hsl(var(--brand-200));
+  --color-brand-300: hsl(var(--brand-300));
+  --color-brand-400: hsl(var(--brand-400));
+  --color-brand-500: hsl(var(--brand-500));
+  --color-brand-600: hsl(var(--brand-600));
+  --color-brand-700: hsl(var(--brand-700));
+  --color-brand-800: hsl(var(--brand-800));
+  --color-brand-900: hsl(var(--brand-900));
+
   --text-xs: 0.75rem;
   --text-xs--line-height: calc(1 / 0.75);
   --text-sm: 0.875rem;
@@ -69,96 +82,126 @@
   --text-9xl--line-height: 1;
 }
 
-/* LIGHT MODE - Default theme with placeholder values */
+/* ─── OneQR White & Green Theme ──────────────────────────────────────────── */
 :root {
   --button-outline: rgba(0,0,0, .10);
   --badge-outline: rgba(0,0,0, .05);
   --opaque-button-border-intensity: -8;
-
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 240 5.9% 10%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 240 4.8% 95.9%;
-  --accent-foreground: 240 5.9% 10%;
-  --destructive: 0 84.2% 60.2%;
+  /* Brand green palette (HSL) */
+  --brand-50:  142 76% 97%;
+  --brand-100: 141 84% 93%;
+  --brand-200: 141 79% 85%;
+  --brand-300: 142 77% 73%;
+  --brand-400: 142 69% 58%;
+  --brand-500: 142 71% 45%;
+  --brand-600: 142 76% 36%;
+  --brand-700: 142 72% 29%;
+  --brand-800: 143 64% 24%;
+  --brand-900: 144 61% 20%;
+
+  /* Semantic tokens — white base */
+  --background:    0 0% 100%;
+  --foreground:    220 14% 11%;
+  --card:          0 0% 100%;
+  --card-foreground: 220 14% 11%;
+  --popover:       0 0% 100%;
+  --popover-foreground: 220 14% 11%;
+
+  /* Primary = brand green */
+  --primary: 142 76% 36%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary:    142 76% 97%;
+  --secondary-foreground: 142 72% 29%;
+
+  --muted:           220 13% 96%;
+  --muted-foreground: 220 9% 46%;
+
+  --accent:          142 76% 93%;
+  --accent-foreground: 142 72% 29%;
+
+  --destructive:  0 84% 60%;
   --destructive-foreground: 0 0% 98%;
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 240 5.9% 10%;
-  --chart-1: 12 76% 61%;
-  --chart-2: 173 58% 39%;
+
+  --border: 220 13% 90%;
+  --input:  220 13% 90%;
+  --ring:   142 76% 36%;
+
+  /* Chart colors */
+  --chart-1: 142 71% 45%;
+  --chart-2: 142 69% 58%;
   --chart-3: 197 37% 24%;
   --chart-4: 43 74% 66%;
   --chart-5: 27 87% 67%;
-  --sidebar: 0 0% 98%;
-  --sidebar-foreground: 240 5.3% 26.1%;
-  --sidebar-primary: 240 5.9% 10%;
-  --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 240 4.8% 95.9%;
-  --sidebar-accent-foreground: 240 5.9% 10%;
-  --sidebar-border: 220 13% 91%;
-  --sidebar-ring: 240 5.9% 10%;
 
-  --font-sans: 'Inter', sans-serif;
+  /* Sidebar */
+  --sidebar: 0 0% 99%;
+  --sidebar-foreground: 220 14% 11%;
+  --sidebar-primary: 142 76% 36%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 142 76% 93%;
+  --sidebar-accent-foreground: 142 72% 29%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 142 76% 36%;
+
+  --font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: Menlo, monospace;
-  --radius: .5rem;
+  --radius: .625rem;
   --spacing: 0.25rem;
 }
 
-/* DARK MODE */
+/* Dark mode — deep dark with green accents */
 .dark {
   --button-outline: rgba(255,255,255, .10);
   --badge-outline: rgba(255,255,255, .05);
   --opaque-button-border-intensity: 9;
-
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --primary: 0 0% 98%;
-  --primary-foreground: 240 5.9% 10%;
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
+  --background:    220 20% 8%;
+  --foreground:    0 0% 97%;
+  --card:          220 20% 10%;
+  --card-foreground: 0 0% 97%;
+  --popover:       220 20% 10%;
+  --popover-foreground: 0 0% 97%;
+
+  --primary: 142 69% 58%;
+  --primary-foreground: 220 20% 8%;
+
+  --secondary:    220 14% 16%;
+  --secondary-foreground: 0 0% 97%;
+
+  --muted:           220 14% 16%;
+  --muted-foreground: 220 9% 55%;
+
+  --accent:          142 50% 18%;
+  --accent-foreground: 142 69% 58%;
+
+  --destructive:  0 63% 31%;
   --destructive-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 240 4.9% 83.9%;
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
-  --sidebar: 240 5.9% 10%;
-  --sidebar-foreground: 240 4.8% 95.9%;
-  --sidebar-primary: 224.3 76.3% 48%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 240 3.7% 15.9%;
-  --sidebar-accent-foreground: 240 4.8% 95.9%;
-  --sidebar-border: 240 3.7% 15.9%;
-  --sidebar-ring: 240 4.9% 83.9%;
+
+  --border: 220 14% 20%;
+  --input:  220 14% 20%;
+  --ring:   142 69% 58%;
+
+  --chart-1: 142 69% 58%;
+  --chart-2: 142 71% 45%;
+  --chart-3: 197 60% 55%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+
+  --sidebar: 220 20% 10%;
+  --sidebar-foreground: 0 0% 97%;
+  --sidebar-primary: 142 69% 58%;
+  --sidebar-primary-foreground: 220 20% 8%;
+  --sidebar-accent: 142 50% 18%;
+  --sidebar-accent-foreground: 142 69% 58%;
+  --sidebar-border: 220 14% 18%;
+  --sidebar-ring: 142 69% 58%;
 }
 
 @layer base {
@@ -168,18 +211,119 @@
   body {
     @apply font-sans antialiased bg-background text-foreground;
   }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 700;
+  }
 }
 
 @layer utilities {
-  /* Hide ugly search cancel button in Chrome */
   input[type="search"]::-webkit-search-cancel-button {
     @apply hidden;
   }
-
-  /* Placeholder styling for contentEditable div */
   [contenteditable][data-placeholder]:empty::before {
     content: attr(data-placeholder);
     color: hsl(var(--muted-foreground));
     pointer-events: none;
+  }
+
+  /* OneQR Custom Utilities */
+  .brand-gradient {
+    background: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(142 71% 45%) 50%, hsl(142 69% 58%) 100%);
+  }
+
+  .brand-gradient-soft {
+    background: linear-gradient(135deg, hsl(142 76% 97%) 0%, hsl(141 84% 93%) 100%);
+  }
+
+  .hero-gradient {
+    background: linear-gradient(
+      160deg,
+      hsl(0 0% 100%) 0%,
+      hsl(142 76% 97%) 40%,
+      hsl(141 84% 93%) 100%
+    );
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .glass-card-dark {
+    background: rgba(20, 30, 25, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .text-gradient-green {
+    background: linear-gradient(135deg, hsl(142 72% 29%) 0%, hsl(142 71% 45%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .dot-pattern {
+    background-image: radial-gradient(circle, hsl(142 71% 45% / 0.15) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+  }
+
+  .qr-scan-animation {
+    animation: qr-scan 2.5s ease-in-out infinite;
+  }
+
+  @keyframes qr-scan {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-8px) scale(1.02); }
+  }
+
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .pulse-green {
+    animation: pulse-green 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 0 0 hsl(142 71% 45% / 0.4); }
+    50% { box-shadow: 0 0 0 12px hsl(142 71% 45% / 0); }
+  }
+
+  .slide-up {
+    animation: slide-up 0.5s ease-out forwards;
+  }
+
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    animation: fade-in 0.4s ease-out forwards;
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    from { background-position: -200% 0; }
+    to   { background-position: 200% 0; }
   }
 }

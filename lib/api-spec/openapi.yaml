@@ -2,21 +2,35 @@ openapi: 3.1.0
 info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
-  version: 0.1.0
-  description: API specification
+  version: 1.0.0
+  description: OneQR Business Growth Platform API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Authentication operations
+  - name: businesses
+    description: Business profile management
+  - name: links
+    description: Social link management
+  - name: qrcodes
+    description: QR code management
+  - name: offers
+    description: Offers & promotions
+  - name: analytics
+    description: Analytics & insights
+  - name: admin
+    description: Admin operations (restricted)
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +38,545 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current user
+      security: [{ BearerAuth: [] }]
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /businesses:
+    get:
+      operationId: listBusinesses
+      tags: [businesses]
+      summary: List user's businesses
+      security: [{ BearerAuth: [] }]
+      responses:
+        "200":
+          description: List of businesses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Business"
+    post:
+      operationId: createBusiness
+      tags: [businesses]
+      summary: Create a new business
+      security: [{ BearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBusinessRequest"
+      responses:
+        "201":
+          description: Created business
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Business"
+
+  /businesses/{id}:
+    get:
+      operationId: getBusiness
+      tags: [businesses]
+      summary: Get business by ID
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Business
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Business"
+    patch:
+      operationId: updateBusiness
+      tags: [businesses]
+      summary: Update business
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBusinessRequest"
+      responses:
+        "200":
+          description: Updated business
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Business"
+
+  /b/{slug}:
+    get:
+      operationId: getPublicProfile
+      tags: [businesses]
+      summary: Get public business profile (QR destination)
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Public business profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PublicBusinessProfile"
+
+  /businesses/{id}/links:
+    get:
+      operationId: listLinks
+      tags: [links]
+      summary: List social links
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: List of links
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SocialLink"
+    post:
+      operationId: createLink
+      tags: [links]
+      summary: Add a social link
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateLinkRequest"
+      responses:
+        "201":
+          description: Created link
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SocialLink"
+
+  /businesses/{id}/qrcodes:
+    get:
+      operationId: listQRCodes
+      tags: [qrcodes]
+      summary: List QR codes
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: List of QR codes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QRCode"
+
+  /businesses/{id}/offers:
+    get:
+      operationId: listOffers
+      tags: [offers]
+      summary: List offers
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: List of offers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Offer"
+    post:
+      operationId: createOffer
+      tags: [offers]
+      summary: Create offer
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOfferRequest"
+      responses:
+        "201":
+          description: Created offer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Offer"
+
+  /businesses/{id}/analytics:
+    get:
+      operationId: getAnalytics
+      tags: [analytics]
+      summary: Get business analytics
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [7d, 30d, 90d]
+            default: 7d
+      responses:
+        "200":
+          description: Analytics data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsResponse"
+
+  /analytics/track:
+    post:
+      operationId: trackEvent
+      tags: [analytics]
+      summary: Track an analytics event (public)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TrackEventRequest"
+      responses:
+        "204":
+          description: Event tracked
+
+  /admin/users:
+    get:
+      operationId: adminListUsers
+      tags: [admin]
+      summary: List all users (admin only)
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: plan
+          in: query
+          schema:
+            type: string
+            enum: [free, pro, business]
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, expired, cancelled]
+        - name: expiresBeforeDays
+          in: query
+          schema:
+            type: integer
+            description: Users whose subscription expires within N days
+      responses:
+        "200":
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminUser"
+
+  /admin/users/{id}/suspend:
+    post:
+      operationId: adminSuspendUser
+      tags: [admin]
+      summary: Suspend a user account
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: User suspended
+
+  /admin/users/{id}/unsuspend:
+    post:
+      operationId: adminUnsuspendUser
+      tags: [admin]
+      summary: Unsuspend a user account
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: User unsuspended
+
+  /admin/subscriptions/expire:
+    post:
+      operationId: adminExpireSubscriptions
+      tags: [admin]
+      summary: Expire subscriptions that have passed their expiry date
+      security: [{ BearerAuth: [] }]
+      responses:
+        "200":
+          description: Number of subscriptions expired
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  expired:
+                    type: integer
+
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
   schemas:
     HealthStatus:
       type: object
       properties:
         status:
           type: string
-      required:
-        - status
+      required: [status]
 
+    User:
+      type: object
+      properties:
+        id: { type: string }
+        email: { type: string }
+        name: { type: string }
+        avatarUrl: { type: string, nullable: true }
+        subscriptionPlan: { type: string, enum: [free, pro, business] }
+        subscriptionStatus: { type: string, enum: [active, expired, cancelled, trial] }
+        subscriptionExpiresAt: { type: string, format: date-time, nullable: true }
+        isAdmin: { type: boolean }
+        createdAt: { type: string, format: date-time }
+      required: [id, email, name, subscriptionPlan, subscriptionStatus, isAdmin, createdAt]
+
+    AdminUser:
+      allOf:
+        - $ref: "#/components/schemas/User"
+        - type: object
+          properties:
+            isSuspended: { type: boolean }
+            lastSeenAt: { type: string, format: date-time, nullable: true }
+
+    Business:
+      type: object
+      properties:
+        id: { type: string }
+        ownerId: { type: string }
+        name: { type: string }
+        slug: { type: string }
+        description: { type: string, nullable: true }
+        category: { type: string }
+        logoUrl: { type: string, nullable: true }
+        coverImageUrl: { type: string, nullable: true }
+        primaryColor: { type: string }
+        phone: { type: string, nullable: true }
+        email: { type: string, nullable: true }
+        website: { type: string, nullable: true }
+        address: { type: string, nullable: true }
+        googleMapsUrl: { type: string, nullable: true }
+        googleReviewUrl: { type: string, nullable: true }
+        whatsappNumber: { type: string, nullable: true }
+        isActive: { type: boolean }
+        isVerified: { type: boolean }
+        totalScans: { type: integer }
+        totalClicks: { type: integer }
+        createdAt: { type: string, format: date-time }
+      required: [id, ownerId, name, slug, category, primaryColor, isActive, isVerified, totalScans, totalClicks, createdAt]
+
+    CreateBusinessRequest:
+      type: object
+      properties:
+        name: { type: string }
+        slug: { type: string }
+        description: { type: string }
+        category: { type: string }
+        phone: { type: string }
+        website: { type: string }
+        address: { type: string }
+        googleMapsUrl: { type: string }
+        googleReviewUrl: { type: string }
+        whatsappNumber: { type: string }
+      required: [name, slug, category]
+
+    UpdateBusinessRequest:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+        category: { type: string }
+        primaryColor: { type: string }
+        phone: { type: string }
+        website: { type: string }
+        address: { type: string }
+        googleMapsUrl: { type: string }
+        googleReviewUrl: { type: string }
+        whatsappNumber: { type: string }
+        isActive: { type: boolean }
+
+    PublicBusinessProfile:
+      type: object
+      properties:
+        business:
+          $ref: "#/components/schemas/Business"
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/SocialLink"
+        offers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Offer"
+      required: [business, links, offers]
+
+    SocialLink:
+      type: object
+      properties:
+        id: { type: string }
+        businessId: { type: string }
+        platform: { type: string }
+        label: { type: string, nullable: true }
+        url: { type: string }
+        sortOrder: { type: integer }
+        isActive: { type: boolean }
+        clicks: { type: integer }
+        createdAt: { type: string, format: date-time }
+      required: [id, businessId, platform, url, sortOrder, isActive, clicks, createdAt]
+
+    CreateLinkRequest:
+      type: object
+      properties:
+        platform: { type: string }
+        label: { type: string }
+        url: { type: string }
+        sortOrder: { type: integer }
+      required: [platform, url]
+
+    QRCode:
+      type: object
+      properties:
+        id: { type: string }
+        businessId: { type: string }
+        label: { type: string }
+        destinationUrl: { type: string }
+        qrImageUrl: { type: string, nullable: true }
+        isActive: { type: boolean }
+        scans: { type: integer }
+        createdAt: { type: string, format: date-time }
+      required: [id, businessId, label, destinationUrl, isActive, scans, createdAt]
+
+    Offer:
+      type: object
+      properties:
+        id: { type: string }
+        businessId: { type: string }
+        title: { type: string }
+        description: { type: string, nullable: true }
+        emoji: { type: string }
+        isActive: { type: boolean }
+        expiresAt: { type: string, format: date-time, nullable: true }
+        createdAt: { type: string, format: date-time }
+      required: [id, businessId, title, emoji, isActive, createdAt]
+
+    CreateOfferRequest:
+      type: object
+      properties:
+        title: { type: string }
+        description: { type: string }
+        emoji: { type: string }
+        expiresAt: { type: string, format: date-time }
+      required: [title]
+
+    AnalyticsResponse:
+      type: object
+      properties:
+        totalScans: { type: integer }
+        totalClicks: { type: integer }
+        totalReviewClicks: { type: integer }
+        daily:
+          type: array
+          items:
+            $ref: "#/components/schemas/DailyStats"
+        topLinks:
+          type: array
+          items:
+            $ref: "#/components/schemas/LinkStats"
+      required: [totalScans, totalClicks, totalReviewClicks, daily, topLinks]
+
+    DailyStats:
+      type: object
+      properties:
+        date: { type: string }
+        qrScans: { type: integer }
+        profileViews: { type: integer }
+        linkClicks: { type: integer }
+      required: [date, qrScans, profileViews, linkClicks]
+
+    LinkStats:
+      type: object
+      properties:
+        platform: { type: string }
+        clicks: { type: integer }
+        percentage: { type: number }
+      required: [platform, clicks, percentage]
+
+    TrackEventRequest:
+      type: object
+      properties:
+        businessId: { type: string }
+        eventType: { type: string }
+        targetId: { type: string }
+        targetLabel: { type: string }
+      required: [businessId, eventType]
